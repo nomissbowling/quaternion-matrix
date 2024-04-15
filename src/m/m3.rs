@@ -60,12 +60,16 @@ impl<F: Float + std::fmt::Debug + std::iter::Sum> TMatrix<F> for Matrix3<F> {
   }
   /// dot m
   fn dot_m(a: &impl TMatrix<F>, b: &impl TMatrix<F>) -> Self {
-    Matrix3::<F>::col_major(&(0..3).into_iter().map(|i|
+    Matrix3::<F>::col_major(&(0..3).into_iter().map(|i| {
+      let v = Vector3::<F>::new(&b.col(i));
+      Vector3::<F>::dot_mv(a, &v).as_vec()
+/*
       (0..3).into_iter().map(|j|
         Vector3::<F>::dot(&Vector3::<F>::new(&a.row(j)),
           &Vector3::<F>::new(&b.col(i)))
       ).collect()
-    ).collect())
+*/
+    }).collect())
   }
   /// row (TODO: now copy)
   fn row(&self, j: usize) -> Vec<F> {
