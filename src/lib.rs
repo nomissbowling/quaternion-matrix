@@ -1,4 +1,4 @@
-#![doc(html_root_url = "https://docs.rs/quaternion-matrix/0.0.4")]
+#![doc(html_root_url = "https://docs.rs/quaternion-matrix/0.0.5")]
 //! quaternion matrix for Rust
 //!
 
@@ -25,10 +25,11 @@ macro_rules! assert_pe {
 /// check_q macro
 #[macro_export]
 macro_rules! check_qaa {
-  ($f: ident, $v: expr, $r: expr, $qe: expr) => {
+  ($f: ident, $v: expr, $r: expr, $qe: expr) => {{
     let q = Quaternion::<$f>::from_axis_and_angle($v, $r);
     assert_pe!(q, 0.000001, $f, $qe);
-  }
+    q
+  }}
 }
 
 /// test with [-- --nocapture] or [-- --show-output]
@@ -117,44 +118,118 @@ mod tests {
     let r64 = 0.70710678f64;
 
     // cos = 1, sin = 0
-    check_qaa!(f32, &ax32, t32[0], &vec![1.0, 0.0, 0.0, 0.0]);
-    check_qaa!(f64, &ax64, t64[0], &vec![1.0, 0.0, 0.0, 0.0]);
-    check_qaa!(f32, &ay32, t32[0], &vec![1.0, 0.0, 0.0, 0.0]);
-    check_qaa!(f64, &ay64, t64[0], &vec![1.0, 0.0, 0.0, 0.0]);
-    check_qaa!(f32, &az32, t32[0], &vec![1.0, 0.0, 0.0, 0.0]);
-    check_qaa!(f64, &az64, t64[0], &vec![1.0, 0.0, 0.0, 0.0]);
-
     // cos = r, sin = r
-    check_qaa!(f32, &ax32, t32[1], &vec![r32, r32, 0.0, 0.0]);
-    check_qaa!(f64, &ax64, t64[1], &vec![r64, r64, 0.0, 0.0]);
-    check_qaa!(f32, &ay32, t32[1], &vec![r32, 0.0, r32, 0.0]);
-    check_qaa!(f64, &ay64, t64[1], &vec![r64, 0.0, r64, 0.0]);
-    check_qaa!(f32, &az32, t32[1], &vec![r32, 0.0, 0.0, r32]);
-    check_qaa!(f64, &az64, t64[1], &vec![r64, 0.0, 0.0, r64]);
-
     // cos = 0, sin = 1
-    check_qaa!(f32, &ax32, t32[2], &vec![0.0, 1.0, 0.0, 0.0]);
-    check_qaa!(f64, &ax64, t64[2], &vec![0.0, 1.0, 0.0, 0.0]);
-    check_qaa!(f32, &ay32, t32[2], &vec![0.0, 0.0, 1.0, 0.0]);
-    check_qaa!(f64, &ay64, t64[2], &vec![0.0, 0.0, 1.0, 0.0]);
-    check_qaa!(f32, &az32, t32[2], &vec![0.0, 0.0, 0.0, 1.0]);
-    check_qaa!(f64, &az64, t64[2], &vec![0.0, 0.0, 0.0, 1.0]);
-
     // cos = -r, sin = r
-    check_qaa!(f32, &ax32, t32[3], &vec![-r32, r32, 0.0, 0.0]);
-    check_qaa!(f64, &ax64, t64[3], &vec![-r64, r64, 0.0, 0.0]);
-    check_qaa!(f32, &ay32, t32[3], &vec![-r32, 0.0, r32, 0.0]);
-    check_qaa!(f64, &ay64, t64[3], &vec![-r64, 0.0, r64, 0.0]);
-    check_qaa!(f32, &az32, t32[3], &vec![-r32, 0.0, 0.0, r32]);
-    check_qaa!(f64, &az64, t64[3], &vec![-r64, 0.0, 0.0, r64]);
-
     // cos = -1, sin = 0
-    check_qaa!(f32, &ax32, t32[4], &vec![-1.0, 0.0, 0.0, 0.0]);
-    check_qaa!(f64, &ax64, t64[4], &vec![-1.0, 0.0, 0.0, 0.0]);
-    check_qaa!(f32, &ay32, t32[4], &vec![-1.0, 0.0, 0.0, 0.0]);
-    check_qaa!(f64, &ay64, t64[4], &vec![-1.0, 0.0, 0.0, 0.0]);
-    check_qaa!(f32, &az32, t32[4], &vec![-1.0, 0.0, 0.0, 0.0]);
-    check_qaa!(f64, &az64, t64[4], &vec![-1.0, 0.0, 0.0, 0.0]);
+    let q32t = vec![
+      vec![
+        check_qaa!(f32, &ax32, t32[0], &vec![1.0, 0.0, 0.0, 0.0]),
+        check_qaa!(f32, &ax32, t32[1], &vec![r32, r32, 0.0, 0.0]),
+        check_qaa!(f32, &ax32, t32[2], &vec![0.0, 1.0, 0.0, 0.0]),
+        check_qaa!(f32, &ax32, t32[3], &vec![-r32, r32, 0.0, 0.0]),
+        check_qaa!(f32, &ax32, t32[4], &vec![-1.0, 0.0, 0.0, 0.0])],
+      vec![
+        check_qaa!(f32, &ay32, t32[0], &vec![1.0, 0.0, 0.0, 0.0]),
+        check_qaa!(f32, &ay32, t32[1], &vec![r32, 0.0, r32, 0.0]),
+        check_qaa!(f32, &ay32, t32[2], &vec![0.0, 0.0, 1.0, 0.0]),
+        check_qaa!(f32, &ay32, t32[3], &vec![-r32, 0.0, r32, 0.0]),
+        check_qaa!(f32, &ay32, t32[4], &vec![-1.0, 0.0, 0.0, 0.0])],
+      vec![
+        check_qaa!(f32, &az32, t32[0], &vec![1.0, 0.0, 0.0, 0.0]),
+        check_qaa!(f32, &az32, t32[1], &vec![r32, 0.0, 0.0, r32]),
+        check_qaa!(f32, &az32, t32[2], &vec![0.0, 0.0, 0.0, 1.0]),
+        check_qaa!(f32, &az32, t32[3], &vec![-r32, 0.0, 0.0, r32]),
+        check_qaa!(f32, &az32, t32[4], &vec![-1.0, 0.0, 0.0, 0.0])]];
+    let q64t = vec![
+      vec![
+        check_qaa!(f64, &ax64, t64[0], &vec![1.0, 0.0, 0.0, 0.0]),
+        check_qaa!(f64, &ax64, t64[1], &vec![r64, r64, 0.0, 0.0]),
+        check_qaa!(f64, &ax64, t64[2], &vec![0.0, 1.0, 0.0, 0.0]),
+        check_qaa!(f64, &ax64, t64[3], &vec![-r64, r64, 0.0, 0.0]),
+        check_qaa!(f64, &ax64, t64[4], &vec![-1.0, 0.0, 0.0, 0.0])],
+      vec![
+        check_qaa!(f64, &ay64, t64[0], &vec![1.0, 0.0, 0.0, 0.0]),
+        check_qaa!(f64, &ay64, t64[1], &vec![r64, 0.0, r64, 0.0]),
+        check_qaa!(f64, &ay64, t64[2], &vec![0.0, 0.0, 1.0, 0.0]),
+        check_qaa!(f64, &ay64, t64[3], &vec![-r64, 0.0, r64, 0.0]),
+        check_qaa!(f64, &ay64, t64[4], &vec![-1.0, 0.0, 0.0, 0.0])],
+      vec![
+        check_qaa!(f64, &az64, t64[0], &vec![1.0, 0.0, 0.0, 0.0]),
+        check_qaa!(f64, &az64, t64[1], &vec![r64, 0.0, 0.0, r64]),
+        check_qaa!(f64, &az64, t64[2], &vec![0.0, 0.0, 0.0, 1.0]),
+        check_qaa!(f64, &az64, t64[3], &vec![-r64, 0.0, 0.0, r64]),
+        check_qaa!(f64, &az64, t64[4], &vec![-1.0, 0.0, 0.0, 0.0])]];
+
+    let i32 = Matrix4::<f32>::identity();
+    let i64 = Matrix4::<f64>::identity();
+    let qm32 = q32t.iter().map(|qxyz| qxyz.iter().map(|q|
+      q.to_m4_rot()).collect::<Vec<_>>()).collect::<Vec<_>>();
+    let qm64 = q64t.iter().map(|qxyz| qxyz.iter().map(|q|
+      q.to_m4_rot()).collect::<Vec<_>>()).collect::<Vec<_>>();
+
+    assert!(qm32[0][0].prec_eq(0.000001, &i32));
+    assert!(qm32[0][1].prec_eq(0.000001, &Matrix4::<f32>::new(&vec![
+      vec![1.0, 0.0, 0.0, 0.0],
+      vec![0.0, 1.0, 0.0, 0.0],
+      vec![0.0, 0.0, 0.0, -1.0], // yz (0, -sin pi/2)
+      vec![0.0, 0.0, 1.0, 0.0]]))); // yz (sin pi/2, 0)
+    assert!(qm32[0][2].prec_eq(0.000001, &Matrix4::<f32>::new(&vec![
+      vec![1.0, 0.0, 0.0, 0.0],
+      vec![0.0, 1.0, 0.0, 0.0],
+      vec![0.0, 0.0, -1.0, 0.0], // yz (cos pi, 0)
+      vec![0.0, 0.0, 0.0, -1.0]]))); // yz (0, cos pi)
+    assert!(qm32[0][3].prec_eq(0.000001, &Matrix4::<f32>::new(&vec![
+      vec![1.0, 0.0, 0.0, 0.0],
+      vec![0.0, 1.0, 0.0, 0.0],
+      vec![0.0, 0.0, 0.0, 1.0], // yz (0, -sin 3pi/2)
+      vec![0.0, 0.0, -1.0, 0.0]]))); // yz (sin 3pi/2, 0)
+    assert!(qm32[0][4].prec_eq(0.000001, &i32));
+
+    assert!(qm32[1][0].prec_eq(0.000001, &i32));
+    assert!(qm32[1][1].prec_eq(0.000001, &Matrix4::<f32>::new(&vec![
+      vec![1.0, 0.0, 0.0, 0.0],
+      vec![0.0, 0.0, 0.0, 1.0], // zx (0, -sin pi/2)
+      vec![0.0, 0.0, 1.0, 0.0],
+      vec![0.0, -1.0, 0.0, 0.0]]))); // zx (sin pi/2, 0)
+    assert!(qm32[1][2].prec_eq(0.000001, &Matrix4::<f32>::new(&vec![
+      vec![1.0, 0.0, 0.0, 0.0],
+      vec![0.0, -1.0, 0.0, 0.0], // zx (cos pi, 0)
+      vec![0.0, 0.0, 1.0, 0.0],
+      vec![0.0, 0.0, 0.0, -1.0]]))); // zx (0, cos pi)
+    assert!(qm32[1][3].prec_eq(0.000001, &Matrix4::<f32>::new(&vec![
+      vec![1.0, 0.0, 0.0, 0.0],
+      vec![0.0, 0.0, 0.0, -1.0], // zx (0, -sin 3pi/2)
+      vec![0.0, 0.0, 1.0, 0.0],
+      vec![0.0, 1.0, 0.0, 0.0]]))); // zx (sin 3pi/2, 0)
+    assert!(qm32[1][4].prec_eq(0.000001, &i32));
+
+    assert!(qm32[2][0].prec_eq(0.000001, &i32));
+    assert!(qm32[2][1].prec_eq(0.000001, &Matrix4::<f32>::new(&vec![
+      vec![1.0, 0.0, 0.0, 0.0],
+      vec![0.0, 0.0, -1.0, 0.0], // xy (0, -sin pi/2)
+      vec![0.0, 1.0, 0.0, 0.0], // xy (sin pi/2, 0)
+      vec![0.0, 0.0, 0.0, 1.0]])));
+    assert!(qm32[2][2].prec_eq(0.000001, &Matrix4::<f32>::new(&vec![
+      vec![1.0, 0.0, 0.0, 0.0],
+      vec![0.0, -1.0, 0.0, 0.0], // xy (cos pi, 0)
+      vec![0.0, 0.0, -1.0, 0.0], // xy (0, cos pi)
+      vec![0.0, 0.0, 0.0, 1.0]])));
+    assert!(qm32[2][3].prec_eq(0.000001, &Matrix4::<f32>::new(&vec![
+      vec![1.0, 0.0, 0.0, 0.0],
+      vec![0.0, 0.0, 1.0, 0.0], // xy (0, -sin 3pi/2)
+      vec![0.0, -1.0, 0.0, 0.0], // xy (sin 3pi/2, 0)
+      vec![0.0, 0.0, 0.0, 1.0]])));
+    assert!(qm32[2][4].prec_eq(0.000001, &i32));
+
+    assert!(qm64[0][0].prec_eq(0.000001, &i64));
+    assert!(qm64[0][4].prec_eq(0.000001, &i64));
+
+    assert!(qm64[1][0].prec_eq(0.000001, &i64));
+    assert!(qm64[1][4].prec_eq(0.000001, &i64));
+
+    assert!(qm64[2][0].prec_eq(0.000001, &i64));
+    assert!(qm64[2][4].prec_eq(0.000001, &i64));
   }
 
   /// test Matrix3
