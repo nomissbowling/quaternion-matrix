@@ -9,6 +9,8 @@ use crate::v::TVector;
 pub trait TQuaternion<F: Float + std::fmt::Debug> {
   /// constructor
   fn identity() -> Self;
+  /// conjugate
+  fn conjugate(&self) -> Self;
 }
 
 /// Quaternion
@@ -21,5 +23,9 @@ impl<F: Float + std::fmt::Debug> TQuaternion<F> for Quaternion<F> {
     Quaternion::<F>::new(&(0..4).into_iter().map(|i|
       <F>::from(if i == 0 { 1.0 } else { 0.0 }).unwrap()
     ).collect::<Vec<_>>())
+  }
+  /// conjugate
+  fn conjugate(&self) -> Self {
+    [self[0], -self[1], -self[2], -self[3]]
   }
 }

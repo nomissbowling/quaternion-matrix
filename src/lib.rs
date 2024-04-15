@@ -1,4 +1,4 @@
-#![doc(html_root_url = "https://docs.rs/quaternion-matrix/0.0.1")]
+#![doc(html_root_url = "https://docs.rs/quaternion-matrix/0.0.2")]
 //! quaternion matrix for Rust
 //!
 
@@ -48,6 +48,22 @@ mod tests {
     assert_eq!(Quaternion::<f32>::identity(),
       [1.0, 0.0, 0.0, 0.0]);
     assert_eq!(Quaternion::<f64>::identity(),
+      [1.0, 0.0, 0.0, 0.0]);
+    assert_eq!(Quaternion::<f32>::identity().conjugate(),
+      [1.0, 0.0, 0.0, 0.0]);
+    assert_eq!(Quaternion::<f64>::identity().conjugate(),
+      [1.0, 0.0, 0.0, 0.0]);
+    assert_eq!(Quaternion::<f32>::identity().prec_eq(0.000001,
+      &Quaternion::<f32>::new(&[1.0, 0.0, 0.0, 0.0000009])), true);
+    assert_eq!(Quaternion::<f64>::identity().prec_eq(0.000001,
+      &Quaternion::<f64>::new(&[1.0, 0.0, 0.0, 0.0000009])), true);
+    assert_eq!(Quaternion::<f32>::identity().prec_eq(0.000001,
+      &Quaternion::<f32>::new(&[1.0, 0.0, 0.0, 0.000001])), false);
+    assert_eq!(Quaternion::<f64>::identity().prec_eq(0.000001,
+      &Quaternion::<f64>::new(&[1.0, 0.0, 0.0, 0.000001])), false);
+    assert_eq!(Quaternion::<f32>::identity().as_vec(),
+      [1.0, 0.0, 0.0, 0.0]);
+    assert_eq!(Quaternion::<f64>::identity().as_vec(),
       [1.0, 0.0, 0.0, 0.0]);
   }
 
