@@ -1,4 +1,4 @@
-#![doc(html_root_url = "https://docs.rs/quaternion-matrix/0.0.5")]
+#![doc(html_root_url = "https://docs.rs/quaternion-matrix/0.0.6")]
 //! quaternion matrix for Rust
 //!
 
@@ -51,8 +51,8 @@ mod tests {
     assert_eq!(Vector3::<f64>::dot(&v64, &v64), 14.0);
     let i32 = Matrix3::<f32>::identity();
     let i64 = Matrix3::<f64>::identity();
-    assert_eq!(Vector3::<f32>::dot_mv(&i32, &v32).as_vec(), v32.as_vec());
-    assert_eq!(Vector3::<f64>::dot_mv(&i64, &v64).as_vec(), v64.as_vec());
+    assert_eq!(Vector3::<f32>::dot_mv(&i32, &v32).to_vec(), v32.to_vec());
+    assert_eq!(Vector3::<f64>::dot_mv(&i64, &v64).to_vec(), v64.to_vec());
   }
 
   /// test Vector4
@@ -66,8 +66,8 @@ mod tests {
     assert_eq!(Vector4::<f64>::dot(&v64, &v64), 30.0);
     let i32 = Matrix4::<f32>::identity();
     let i64 = Matrix4::<f64>::identity();
-    assert_eq!(Vector4::<f32>::dot_mv(&i32, &v32).as_vec(), v32.as_vec());
-    assert_eq!(Vector4::<f64>::dot_mv(&i64, &v64).as_vec(), v64.as_vec());
+    assert_eq!(Vector4::<f32>::dot_mv(&i32, &v32).to_vec(), v32.to_vec());
+    assert_eq!(Vector4::<f64>::dot_mv(&i64, &v64).to_vec(), v64.to_vec());
   }
 
   /// test Quaternion
@@ -95,8 +95,8 @@ mod tests {
     assert_eq!(qi64.prec_eq(0.000001, &q64m), true);
     assert_eq!(qi32.prec_eq(0.000001, &q32p), false);
     assert_eq!(qi64.prec_eq(0.000001, &q64p), false);
-    assert_eq!(qi32.as_vec(), [1.0, 0.0, 0.0, 0.0]);
-    assert_eq!(qi64.as_vec(), [1.0, 0.0, 0.0, 0.0]);
+    assert_eq!(qi32.to_vec(), [1.0, 0.0, 0.0, 0.0]);
+    assert_eq!(qi64.to_vec(), [1.0, 0.0, 0.0, 0.0]);
   }
 
   /// test Quaternion rot

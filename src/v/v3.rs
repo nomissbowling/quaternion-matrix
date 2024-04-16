@@ -22,8 +22,8 @@ impl<F: Float + std::fmt::Debug + std::iter::Sum> TVector<F> for Vector3<F> {
     }
     true
   }
-  /// as_vec (TODO: now copy)
-  fn as_vec(&self) -> Vec<F> {
+  /// to_vec
+  fn to_vec(&self) -> Vec<F> {
     self.iter().map(|&f| f).collect::<Vec<_>>()
   }
   /// like as slice

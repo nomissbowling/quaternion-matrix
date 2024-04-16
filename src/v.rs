@@ -14,8 +14,8 @@ pub trait TVector<F: Float + std::fmt::Debug> {
   fn new(v: &Vec<F>) -> Self;
   /// check equal with precision
   fn prec_eq(&self, e: F, v: &impl TVector<F>) -> bool;
-  /// as_vec (TODO: now copy)
-  fn as_vec(&self) -> Vec<F>;
+  /// to_vec
+  fn to_vec(&self) -> Vec<F>;
   /// like as slice
   fn me(&self) -> &[F];
   /// dot
