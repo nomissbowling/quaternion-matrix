@@ -18,8 +18,8 @@ pub trait TVector<F: Float + std::fmt::Debug> {
   fn to_vec(&self) -> Vec<F>;
   /// like as slice
   fn me(&self) -> &[F];
-  /// dot
-  fn dot(a: &impl TVector<F>, b: &impl TVector<F>) -> F;
-  /// dot mv
-  fn dot_mv(a: &impl TMatrix<F>, v: &impl TVector<F>) -> Self;
+  /// a dot self
+  fn dot(&self, a: &impl TVector<F>) -> F;
+  /// m dot self
+  fn dot_mv(&self, m: &impl TMatrix<F>) -> Self;
 }

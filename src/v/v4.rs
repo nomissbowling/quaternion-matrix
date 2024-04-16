@@ -30,15 +30,13 @@ impl<F: Float + std::fmt::Debug + std::iter::Sum> TVector<F> for Vector4<F> {
   fn me(&self) -> &[F] {
     self
   }
-  /// dot
-  fn dot(a: &impl TVector<F>, b: &impl TVector<F>) -> F {
+  /// a dot self
+  fn dot(&self, a: &impl TVector<F>) -> F {
     let a = a.me();
-    let b = b.me();
-    (0..4).into_iter().map(|i| a[i] * b[i]).sum::<F>()
+    (0..4).into_iter().map(|i| a[i] * self[i]).sum::<F>()
   }
-  /// dot mv
-  fn dot_mv(a: &impl TMatrix<F>, v: &impl TVector<F>) -> Self {
-    Self::new(&(0..4).into_iter().map(|j|
-      Self::dot(&Self::new(&a.row(j)), v)).collect())
+  /// m dot self
+  fn dot_mv(&self, m: &impl TMatrix<F>) -> Self {
+    Self::new(&(0..4).into_iter().map(|j| self.dot(&m.rowv4(j))).collect())
   }
 }

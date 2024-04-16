@@ -22,6 +22,20 @@ pub type Matrix4<F> = [[F; 4]; 4];
 
 /// TMatrix for Matrix4
 impl<F: Float + std::fmt::Debug + std::iter::Sum> TMatrix<F> for Matrix4<F> {
+  /// constructor col major from v4 (move)
+  fn colmajor4(m: Vec<Vector4<F>>) -> Self where Self: Sized {
+    (0..4).into_iter().map(|i|
+      (0..4).into_iter().map(|j|
+        m[j][i]
+      ).collect::<Vec<_>>().try_into().unwrap()
+    ).collect::<Vec<_>>().try_into().unwrap()
+  }
+  /// constructor row major from v4 (move)
+  fn rowmajor4(m: Vec<Vector4<F>>) -> Self where Self: Sized {
+    (0..4).into_iter().map(|j|
+      m[j]
+    ).collect::<Vec<_>>().try_into().unwrap()
+  }
   /// constructor col major
   fn col_major(m: &Vec<Vec<F>>) -> Self {
     (0..4).into_iter().map(|i|
@@ -54,7 +68,7 @@ impl<F: Float + std::fmt::Debug + std::iter::Sum> TMatrix<F> for Matrix4<F> {
   }
   /// check equal with precision
   fn prec_eq(&self, e: F, m: &impl TMatrix<F>) -> bool {
-    let m = m.me();
+    let m = m.mev4();
     for j in 0..4 {
       for i in 0..4 {
         if (self[j][i] - m[j][i]).abs() >= e { return false; }
@@ -62,28 +76,23 @@ impl<F: Float + std::fmt::Debug + std::iter::Sum> TMatrix<F> for Matrix4<F> {
     }
     true
   }
-  /// like as slice (TODO: now copy)
-  fn me(&self) -> Vec<Vec<F>> {
-    (0..4).into_iter().map(|j|
-      (0..4).into_iter().map(|i|
-        self[j][i]
-      ).collect()
-    ).collect()
+  /// like as slice v4
+  fn mev4(&self) -> &[Vector4<F>] {
+    self
   }
-  /// dot m
-  fn dot_m(a: &impl TMatrix<F>, b: &impl TMatrix<F>) -> Self {
-    Matrix4::<F>::col_major(&(0..4).into_iter().map(|i| {
-      let v = Vector4::<F>::new(&b.col(i));
-      Vector4::<F>::dot_mv(a, &v).to_vec() // TODO: now copy
+  /// m dot self
+  fn dot_m(&self, m: &impl TMatrix<F>) -> Self {
+    Matrix4::<F>::colmajor4((0..4).into_iter().map(|i| {
+      self.colv4(i).dot_mv(m) // m dot self.col
     }).collect())
   }
-  /// row (TODO: now copy)
-  fn row(&self, j: usize) -> Vec<F> {
-    (0..4).into_iter().map(|i| self[j][i]).collect()
+  /// row to v4
+  fn rowv4(&self, j: usize) -> Vector4<F> {
+    Vector4::<F>::new(&(0..4).into_iter().map(|i| self[j][i]).collect())
   }
-  /// col (TODO: now copy)
-  fn col(&self, i: usize) -> Vec<F> {
-    (0..4).into_iter().map(|j| self[j][i]).collect()
+  /// col to v4
+  fn colv4(&self, i: usize) -> Vector4<F> {
+    Vector4::<F>::new(&(0..4).into_iter().map(|j| self[j][i]).collect())
   }
 }
 

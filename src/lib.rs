@@ -1,4 +1,4 @@
-#![doc(html_root_url = "https://docs.rs/quaternion-matrix/0.0.6")]
+#![doc(html_root_url = "https://docs.rs/quaternion-matrix/0.0.7")]
 //! quaternion matrix for Rust
 //!
 
@@ -47,12 +47,12 @@ mod tests {
     let v64 = Vector3::<f64>::new(&vec![1.0, 2.0, 3.0]);
     assert_eq!(v32, [1.0, 2.0, 3.0]);
     assert_eq!(v64, [1.0, 2.0, 3.0]);
-    assert_eq!(Vector3::<f32>::dot(&v32, &v32), 14.0);
-    assert_eq!(Vector3::<f64>::dot(&v64, &v64), 14.0);
+    assert_eq!(v32.dot(&v32), 14.0);
+    assert_eq!(v64.dot(&v64), 14.0);
     let i32 = Matrix3::<f32>::identity();
     let i64 = Matrix3::<f64>::identity();
-    assert_eq!(Vector3::<f32>::dot_mv(&i32, &v32).to_vec(), v32.to_vec());
-    assert_eq!(Vector3::<f64>::dot_mv(&i64, &v64).to_vec(), v64.to_vec());
+    assert_eq!(v32.dot_mv(&i32).to_vec(), v32.to_vec()); // i32 dot v32
+    assert_eq!(v64.dot_mv(&i64).to_vec(), v64.to_vec()); // i64 dot v64
   }
 
   /// test Vector4
@@ -62,12 +62,12 @@ mod tests {
     let v64 = Vector4::<f64>::new(&vec![1.0, 2.0, 3.0, 4.0]);
     assert_eq!(v32, [1.0, 2.0, 3.0, 4.0]);
     assert_eq!(v64, [1.0, 2.0, 3.0, 4.0]);
-    assert_eq!(Vector4::<f32>::dot(&v32, &v32), 30.0);
-    assert_eq!(Vector4::<f64>::dot(&v64, &v64), 30.0);
+    assert_eq!(v32.dot(&v32), 30.0);
+    assert_eq!(v64.dot(&v64), 30.0);
     let i32 = Matrix4::<f32>::identity();
     let i64 = Matrix4::<f64>::identity();
-    assert_eq!(Vector4::<f32>::dot_mv(&i32, &v32).to_vec(), v32.to_vec());
-    assert_eq!(Vector4::<f64>::dot_mv(&i64, &v64).to_vec(), v64.to_vec());
+    assert_eq!(v32.dot_mv(&i32).to_vec(), v32.to_vec()); // i32 dot v32
+    assert_eq!(v64.dot_mv(&i64).to_vec(), v64.to_vec()); // i64 dot v64
   }
 
   /// test Quaternion
@@ -271,10 +271,10 @@ mod tests {
       [0.0, 0.0, 1.0]]);
     assert_eq!(m32, i32);
     assert_eq!(m64, i64);
-    assert!(Matrix3::<f32>::dot_m(&m32, &m32).prec_eq(0.000001, &i32));
-    assert!(Matrix3::<f64>::dot_m(&m64, &m64).prec_eq(0.000001, &i64));
-    assert!(Matrix3::<f32>::dot_m(&u32, &v32).prec_eq(0.000001, &i32));
-    assert!(Matrix3::<f64>::dot_m(&u64, &v64).prec_eq(0.000001, &i64));
+    assert!(m32.dot_m(&m32).prec_eq(0.000001, &i32));
+    assert!(m64.dot_m(&m64).prec_eq(0.000001, &i64));
+    assert!(v32.dot_m(&u32).prec_eq(0.000001, &i32)); // u32 dot v32
+    assert!(v64.dot_m(&u64).prec_eq(0.000001, &i64)); // u64 dot v64
   }
 
   /// test Matrix4
@@ -324,9 +324,9 @@ mod tests {
       [0.0, 0.0, 0.0, 1.0]]);
     assert_eq!(m32, i32);
     assert_eq!(m64, i64);
-    assert!(Matrix4::<f32>::dot_m(&m32, &m32).prec_eq(0.000001, &i32));
-    assert!(Matrix4::<f64>::dot_m(&m64, &m64).prec_eq(0.000001, &i64));
-    assert!(Matrix4::<f32>::dot_m(&u32, &v32).prec_eq(0.000001, &i32));
-    assert!(Matrix4::<f64>::dot_m(&u64, &v64).prec_eq(0.000001, &i64));
+    assert!(m32.dot_m(&m32).prec_eq(0.000001, &i32));
+    assert!(m64.dot_m(&m64).prec_eq(0.000001, &i64));
+    assert!(v32.dot_m(&u32).prec_eq(0.000001, &i32)); // u32 dot v32
+    assert!(v64.dot_m(&u64).prec_eq(0.000001, &i64)); // u64 dot v64
   }
 }

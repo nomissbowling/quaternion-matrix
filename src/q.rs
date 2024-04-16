@@ -64,8 +64,8 @@ impl<F: Float + std::fmt::Debug + std::iter::Sum> TQuaternion<F> for Quaternion<
   /// - q * r * q.conjugate()
   /// - Matrix4::from_p_right(q.conjugate()) * Matrix4::from_q_left(q) * r
   fn to_m4_rot(&self) -> Matrix4<F> {
-    let m4q = Matrix4::from_q_left(self);
     let m4p = Matrix4::from_p_right(&self.conjugate());
-    Matrix4::<F>::dot_m(&m4p, &m4q)
+    let m4q = Matrix4::from_q_left(self);
+    m4q.dot_m(&m4p) // m4p dot m4q
   }
 }
