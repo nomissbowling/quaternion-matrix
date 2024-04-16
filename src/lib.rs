@@ -1,4 +1,4 @@
-#![doc(html_root_url = "https://docs.rs/quaternion-matrix/0.0.7")]
+#![doc(html_root_url = "https://docs.rs/quaternion-matrix/0.0.8")]
 //! quaternion matrix for Rust
 //!
 

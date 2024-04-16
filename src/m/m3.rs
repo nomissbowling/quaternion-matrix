@@ -76,7 +76,8 @@ impl<F: Float + std::fmt::Debug + std::iter::Sum> TMatrix<F> for Matrix3<F> {
   }
   /// row to v3
   fn rowv3(&self, j: usize) -> Vector3<F> {
-    Vector3::<F>::new(&(0..3).into_iter().map(|i| self[j][i]).collect())
+    self[j]
+//    Vector3::<F>::new(&(0..3).into_iter().map(|i| self[j][i]).collect())
   }
   /// col to v3
   fn colv3(&self, i: usize) -> Vector3<F> {

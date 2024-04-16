@@ -1,6 +1,6 @@
 [package]
 name = "quaternion-matrix"
-version = "0.0.7" # change with html_root_url in lib.rs
+version = "0.0.8" # change with html_root_url in lib.rs
 edition = "2021"
 authors = ["nomissbowling <nomissbowling@yahoo.co.jp>"]
 
