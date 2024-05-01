@@ -103,19 +103,33 @@ impl<F: Float + std::fmt::Debug> TM4<F> for Matrix4<F> {
   fn from_q_left(q: &impl TQuaternion<F>) -> Self {
     let q = q.me();
     [
+/*
       [q[0], -q[1], -q[2], -q[3]],
       [q[1], q[0], -q[3], q[2]],
       [q[2], q[3], q[0], -q[1]],
-      [q[3], -q[2], q[1], q[0]]]
+      [q[3], -q[2], q[1], q[0]]
+*/
+      [q[0], -q[3], q[2], q[1]],
+      [q[3], q[0], -q[1], q[2]],
+      [-q[2], q[1], q[0], q[3]],
+      [-q[1], -q[2], -q[3], q[0]]
+    ]
   }
   /// from Quaternion (qp = P4x4 q4)
   fn from_p_right(p: &impl TQuaternion<F>) -> Self {
     let p = p.me();
     [
+/*
       [p[0], -p[1], -p[2], -p[3]],
       [p[1], p[0], p[3], -p[2]],
       [p[2], -p[3], p[0], p[1]],
-      [p[3], p[2], -p[1], p[0]]]
+      [p[3], p[2], -p[1], p[0]]
+*/
+      [p[0], p[3], -p[2], p[1]],
+      [-p[3], p[0], p[1], p[2]],
+      [p[2], -p[1], p[0], p[3]],
+      [-p[1], -p[2], -p[3], p[0]]
+    ]
   }
   /// from Quaternion rot (qrp = P4x4 Q4x4 r4)
   fn from_rot(q: &impl TQuaternion<F>) -> Self {
