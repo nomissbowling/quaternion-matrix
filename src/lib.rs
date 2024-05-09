@@ -1,4 +1,4 @@
-#![doc(html_root_url = "https://docs.rs/quaternion-matrix/0.1.1")]
+#![doc(html_root_url = "https://docs.rs/quaternion-matrix/0.1.2")]
 //! quaternion matrix for Rust
 //!
 
@@ -68,6 +68,36 @@ mod tests {
     let i64 = Matrix4::<f64>::identity();
     assert_eq!(v32.dot_mv(&i32).to_vec(), v32.to_vec()); // i32 dot v32
     assert_eq!(v64.dot_mv(&i64).to_vec(), v64.to_vec()); // i64 dot v64
+  }
+
+  /// test Vector3 cross
+  #[test]
+  fn test_vector3_cross() {
+    let a32 = Vector3::<f32>::new(&vec![1.0, 0.0, 1.0]);
+    let a64 = Vector3::<f64>::new(&vec![1.0, 0.0, 1.0]);
+    let b32 = Vector3::<f32>::new(&vec![0.0, 1.0, 1.0]);
+    let b64 = Vector3::<f64>::new(&vec![0.0, 1.0, 1.0]);
+    assert_eq!(a32.cross(&a32), [0.0, 0.0, 0.0]);
+    assert_eq!(a64.cross(&a64), [0.0, 0.0, 0.0]);
+    assert_eq!(a32.cross(&b32), [-1.0, -1.0, 1.0]);
+    assert_eq!(a64.cross(&b64), [-1.0, -1.0, 1.0]);
+    assert_eq!(b32.cross(&a32), [1.0, 1.0, -1.0]);
+    assert_eq!(b64.cross(&a64), [1.0, 1.0, -1.0]);
+  }
+
+  /// test Vector4 cross (TODO: skip now)
+  #[test]
+  fn test_vector4_cross() {
+/*
+    let a32 = Vector4::<f32>::new(&vec![1.0, 0.0, 1.0, 1.0]);
+    let a64 = Vector4::<f64>::new(&vec![1.0, 0.0, 1.0, 1.0]);
+    let b32 = Vector4::<f32>::new(&vec![0.0, 1.0, 1.0, 1.0]);
+    let b64 = Vector4::<f64>::new(&vec![0.0, 1.0, 1.0, 1.0]);
+    assert_eq!(a32.cross(&a32), [0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0]);
+    assert_eq!(a64.cross(&a64), [0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0]);
+    assert_eq!(a32.cross(&b32), [-1.0, -1.0, 1.0, 0.0, 1.0, -1.0, 0.0, 0.0]);
+    assert_eq!(a64.cross(&b64), [-1.0, -1.0, 1.0, 0.0, 1.0, -1.0, 0.0, 0.0]);
+*/
   }
 
   /// test Quaternion

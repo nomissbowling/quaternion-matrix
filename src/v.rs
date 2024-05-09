@@ -22,4 +22,6 @@ pub trait TVector<F: Float + std::fmt::Debug> {
   fn dot(&self, a: &impl TVector<F>) -> F;
   /// m dot self
   fn dot_mv(&self, m: &impl TMatrix<F>) -> Self;
+  /// self cross b
+  fn cross(&self, b: &impl TVector<F>) -> Self;
 }

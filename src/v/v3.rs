@@ -39,4 +39,13 @@ impl<F: Float + std::fmt::Debug + std::iter::Sum> TVector<F> for Vector3<F> {
   fn dot_mv(&self, m: &impl TMatrix<F>) -> Self {
     Self::new(&(0..3).into_iter().map(|j| self.dot(&m.rowv3(j))).collect())
   }
+  /// self cross b
+  fn cross(&self, b: &impl TVector<F>) -> Self {
+    let a = self.me();
+    let b = b.me();
+    Self::new(&vec![
+      a[1] * b[2] - a[2] * b[1],
+      a[2] * b[0] - a[0] * b[2],
+      a[0] * b[1] - a[1] * b[0]])
+  }
 }
