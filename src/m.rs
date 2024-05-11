@@ -11,8 +11,10 @@ use crate::v::{v3::Vector3, v4::Vector4};
 /// cofactor
 pub fn cofactor<F: Float + std::fmt::Debug>(
   m: &Vec<Vec<F>>, i: usize, j: usize) -> F {
+/*
   assert_eq!(m.len(), m[0].len());
   assert!(m.len() >= 2);
+*/
   if m.len() == 2 {
     return [[m[1][1]], [-m[1][0]], [-m[0][1]], [m[0][0]]][i][j];
   }
@@ -41,8 +43,10 @@ pub fn transpose<F: Float + std::fmt::Debug>(m: &Vec<Vec<F>>) -> Vec<Vec<F>> {
 
 /// det
 pub fn det<F: Float + std::fmt::Debug>(m: &Vec<Vec<F>>) -> F {
+/*
   assert_eq!(m.len(), m[0].len());
   assert!(m.len() >= 2);
+*/
   if m.len() == 2 { return m[0][0] * m[1][1] - m[0][1] * m[1][0]; } // to fast
   let mut d = <F>::from(0).unwrap();
   for (cj, &c) in m[0].iter().enumerate() {
@@ -52,9 +56,12 @@ pub fn det<F: Float + std::fmt::Debug>(m: &Vec<Vec<F>>) -> F {
 }
 
 /// inv
+/// - TODO: recursive cofactor (slow), change to LU decomposition to be faster
 /// - p: prec (assume det = 0)
 pub fn inv<F: Float + std::fmt::Debug>(m: &Vec<Vec<F>>, p: F) ->
   Option<Vec<Vec<F>>> {
+  assert_eq!(m.len(), m[0].len());
+  assert!(m.len() >= 2);
   let d = det(m);
   if crate::prec_eq_f(d, p, <F>::from(0).unwrap()) { return None; }
   Some(transpose(&m.iter().enumerate().map(|(ri, r)|
