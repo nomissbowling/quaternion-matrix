@@ -95,6 +95,10 @@ impl<F: Float + std::fmt::Debug + std::iter::Sum> TMatrix<F> for Matrix4<F> {
   fn colv4(&self, i: usize) -> Vector4<F> {
     Vector4::<F>::new(&(0..4).into_iter().map(|j| self[j][i]).collect())
   }
+  /// to_vec
+  fn to_vec(&self) -> Vec<Vec<F>> {
+    self.iter().map(|r| r.to_vec()).collect::<Vec<_>>()
+  }
 }
 
 /// TM4 for Matrix4

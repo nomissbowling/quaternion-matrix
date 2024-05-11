@@ -45,7 +45,7 @@ impl<F: Float + std::fmt::Debug + std::iter::Sum> TVector<F> for Vector4<F> {
     let a = self.me();
     let b = b.me();
     let o = <F>::from(0).unwrap();
-    Vector7::<F>::new(&vec![
+    Vector8::<F>::new(&vec![
       a[1] * b[2] - a[2] * b[1],
       a[2] * b[0] - a[0] * b[2],
       a[0] * b[1] - a[1] * b[0],
